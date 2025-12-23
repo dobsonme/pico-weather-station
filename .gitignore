@@ -1,0 +1,11 @@
+# Secrets
+src/secrets.py
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Thonny/IDE files
+.thonny/
+

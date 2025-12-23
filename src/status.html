@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Weather Station</title>
+<link rel="icon" type="image/x-icon" 
+href="data:image/x-icon;base64,
+AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA9bt/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQAAAAAAABEQAAAAAAEAAQABAAABEQABAAERAAABAAEAAQAAARARAQEQEQAAAAAREAAAAAAAABEQAAAAARARAQEQEQAAAQABAAEAAAERAAEAAREAAAEAAQABAAAAAAAREAAAAAAAAQEBAAAAAAAAAAAAAAD//wAA+r8AAPx/AADu7wAAjuMAAO7vAACSkwAA/H8AAPx/AACSkwAA7u8AAI7jAADu7wAA/H8AAPq/AAD//wAA">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #101010;
+    color: #e0e0e0;
+    padding: 20px;
+}
+h2 { color: #8cf; }
+.label { font-weight: bold; color: #acf; }
+.value { color: #fff; }
+.box { margin-bottom: 10px; }
+pre { background: #222; padding: 10px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h2>Pi Pico W/BME280 Sensor Data</h2>
+
+<div class="box"><span class="label">IP:</span> <span class="value">{{IP}}</span></div>
+<div class="box"><span class="label">Time:</span> <span class="value">{{TIME}}</span></div>
+<div class="box"><span class="label">Temperature:</span> <span class="value">{{TEMP}}</span> °C</div>
+<div class="box"><span class="label">Pressure:</span> <span class="value">{{PRESS}}</span> hPa</div>
+<div class="box"><span class="label">Humidity:</span> <span class="value">{{HUM}}</span> %</div>
+<div class="box"><span class="label">Min Temp:</span> <span class="value">{{TMIN}}</span> °C</div>
+<div class="box"><span class="label">Max Temp:</span> <span class="value">{{TMAX}}</span> °C</div>
+<div class="box"><span class="label">Avg Pressure:</span> <span class="value">{{AVG_PRESS}}</span> hPa</div>
+<h2>Logged Data</h2>
+<pre>{{LOGGED}}</pre>
+
+</body>
+</html>
