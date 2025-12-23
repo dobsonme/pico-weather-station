@@ -68,7 +68,7 @@ Copy the contents of the `src/` directory to the Raspberry Pi Pico W:
 - `vga2_8x8.py`
 - `vga2_bold_16x16.py`
 - `vga2_bold_16x32.py`
-- `secrets.py`
+- `secrets.py.example`
 
 You can use:
 - Thonny
