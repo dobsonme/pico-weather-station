@@ -1,0 +1,19 @@
+# Secrets (WiFi, API keys)
+src/secrets.py
+
+# MicroPython cache / compiled files
+*.mpy
+__pycache__/
+*.pyc
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Thonny / IDE
+.thonny/
+.vscode/
+
+# Logs / temporary
+*.log
+
