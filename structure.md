@@ -24,9 +24,9 @@ pico-weather-station/
 │   ├── wiring.png           # Wiring scheme
 │   ├── setup.md             # Startup instruction
 │   └── photos/              # Photos of a station
-│	├── a.png
-│	├── b.png
-│	└── c.png
+│      	├── a.png
+│	      ├── b.png
+│	      └── c.png
 │
 ├── LICENSE
 ├── README.md
