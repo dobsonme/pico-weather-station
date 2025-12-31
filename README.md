@@ -6,7 +6,7 @@ A compact weather station based on the **Raspberry Pi Pico W**, **BME280 sensor*
 and **Waveshare Pico LCD 2"** display.
 
 The project measures environmental data, displays it locally on an LCD,
-logs measurements, and provides a lightweight HTML status page over Wi-Fi.
+logs measurements and provides a lightweight HTML status page over Wi-Fi.
 
 ---
 
