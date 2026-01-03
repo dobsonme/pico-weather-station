@@ -1,5 +1,5 @@
 # ---------------------------
-# Weather Station v1.0.0
+# Weather Station v1.0.1
 # ---------------------------
 import asyncio
 import time, math, struct, socket
@@ -45,6 +45,9 @@ class State:
         self.pres_max = None
         self.hum_min = None
         self.hum_max = None
+        self.manual_override = False
+        self.manual_brightness = 0
+        self.last_mode = None   # "day" / "night"
 
 state = State()
 
@@ -266,40 +269,64 @@ def load_file(path, binary=False):
 # ---------------------------
 # PWM / Brightness Control
 # ---------------------------
+def brightness_mode(hour):
+    return "night" if 1 <= hour < 8 else "day"
+
 async def pwm_task():
+    global manual_override, manual_brightness, last_mode
+
     try:
         pwm = PWM(Pin(13))
         pwm.freq(1000)
     except:
         pwm = None
 
-    def set_brightness(hour):
-        if pwm:
-            if 1 <= hour < 8:
-                pwm.duty_u16(0)
-            else:
-                pwm.duty_u16(10000)
+    def apply_auto_brightness(mode):
+        if not pwm:
+            return
+        if mode == "night":
+            pwm.duty_u16(0)
+        else:
+            pwm.duty_u16(10000)
 
-    last_hour = time.localtime()[3]
-    set_brightness(last_hour)
+    # inicjalizacja
+    hour = time.localtime()[3]
+    last_mode = brightness_mode(hour)
+    apply_auto_brightness(last_mode)
 
     while True:
-        y,m,d,h,mn,s,wd,yd = time.localtime()
-        tft_text_cached(font1, f"{y}/{m}/{d} {h:02d}:{mn:02d}:{s:02d}", 10, 205, COL["white"])
-        
-        hour = time.localtime()[3]
-        if hour != last_hour:
-            set_brightness(hour)
-            last_hour = hour
+        y, m, d, h, mn, s, wd, yd = time.localtime()
+        tft_text_cached(
+            font1,
+            f"{y}/{m}/{d} {h:02d}:{mn:02d}:{s:02d}",
+            10, 205, COL["white"]
+        )
 
+        current_mode = brightness_mode(h)
+
+        # ⏰ zmiana trybu czasowego (dzień/noc)
+        if current_mode != last_mode:
+            manual_override = False   # zwolnij ręczny override
+            apply_auto_brightness(current_mode)
+            last_mode = current_mode
+
+        # 🔘 ręczna zmiana jasności
         if pwm and buttons.left.value() == 0:
             cur = pwm.duty_u16()
-            pwm.duty_u16(10000 if cur==0 else 65000 if cur==10000 else 0)
+            manual_brightness = (
+                10000 if cur == 0 else
+                65000 if cur == 10000 else
+                0
+            )
+            pwm.duty_u16(manual_brightness)
+            manual_override = True
             await asyncio.sleep(0.3)
 
+        # 🌐 reconnect + NTP
         if buttons.thrust.value() == 0:
             await reconnect_wifi_and_time()
 
+        # 🔄 reboot
         if buttons.right.value() == 0:
             tft_text(font, "Rebooting...", 80, 100, COL["white"])
             await asyncio.sleep(2)
@@ -485,10 +512,16 @@ async def clean_screen():
     while True:
         await asyncio.sleep(1800)
         try:
-            tft.fill_rect(90,10,60,32,0)
-            tft.fill_rect(60,120,16,32,0)
-            tft.fill_rect(140,160,50,32,0)
-            tft.fill_rect(240,130,20,16,0)
+            draw_background()
+            _text_cache.pop((10,230), None)
+            _text_cache.pop((10,10), None)
+            _text_cache.pop((10,80), None)
+            _text_cache.pop((10,120), None)
+            _text_cache.pop((10,160), None)
+            _text_cache.pop((10,53), None)
+            _text_cache.pop((160,90), None)
+            _text_cache.pop((80,130), None)
+            show_ip()
         except: pass
 
 # ---------------------------
