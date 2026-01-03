@@ -1,5 +1,5 @@
 # Pico Weather Station 🌦️
-**Version:** 1.0.0  
+**Version:** 1.0.1 
 **Status:** Stable
 
 A compact weather station based on the **Raspberry Pi Pico W**, **BME280 sensor**
