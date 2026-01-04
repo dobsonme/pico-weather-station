@@ -61,6 +61,15 @@ Assembly instructions can be found in the corresponding README file.
 
 ---
 
+## Buttons
+Hold for 1 second to operate.
+- Top Left - Brightness
+- Bottom Right - WiFi Reset
+- Top Right - Reset
+- Bottom Left - No Function
+  
+---
+
 ## Photos
 
 ![Pico Weather Station](docs/photos/a.jpg)
