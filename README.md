@@ -65,7 +65,7 @@ Assembly instructions can be found in the corresponding README file.
 Hold for 1 second to operate.
 - Top Left - Brightness
 - Bottom Right - WiFi Reset
-- Top Right - Reset
+- Top Right - Restart
 - Bottom Left - No Function
   
 ---
