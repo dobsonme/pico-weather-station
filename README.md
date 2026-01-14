@@ -64,8 +64,8 @@ Assembly instructions can be found in the corresponding README file.
 ## Buttons
 Hold for 1 second to operate.
 - Top Left - Brightness
-- Bottom Right - Restart
 - Top Right - WiFi Reset
+- Bottom Right - Restart
 - Bottom Left - Clean Screen
   
 ---
