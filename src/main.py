@@ -1,5 +1,5 @@
 # ---------------------------
-# Weather Station v1.0.1
+# Weather Station v1.0.2
 # ---------------------------
 import asyncio
 import time, math, struct, socket
@@ -272,6 +272,21 @@ def load_file(path, binary=False):
 def brightness_mode(hour):
     return "night" if 1 <= hour < 8 else "day"
 
+def do_clean_screen():
+    try:
+        draw_background()
+        _text_cache.pop((10,230), None)
+        _text_cache.pop((10,10), None)
+        _text_cache.pop((10,80), None)
+        _text_cache.pop((10,120), None)
+        _text_cache.pop((10,160), None)
+        _text_cache.pop((10,53), None)
+        _text_cache.pop((160,90), None)
+        _text_cache.pop((80,130), None)
+        show_ip()
+    except Exception:
+        pass
+
 async def pwm_task():
     global manual_override, manual_brightness, last_mode
 
@@ -289,7 +304,7 @@ async def pwm_task():
         else:
             pwm.duty_u16(10000)
 
-    # inicjalizacja
+    # initialize
     hour = time.localtime()[3]
     last_mode = brightness_mode(hour)
     apply_auto_brightness(last_mode)
@@ -304,13 +319,13 @@ async def pwm_task():
 
         current_mode = brightness_mode(h)
 
-        # ⏰ zmiana trybu czasowego (dzień/noc)
+        # zmiana trybu czasowego (dzień/noc)
         if current_mode != last_mode:
             manual_override = False   # zwolnij ręczny override
             apply_auto_brightness(current_mode)
             last_mode = current_mode
 
-        # 🔘 ręczna zmiana jasności
+        # ręczna zmiana jasności
         if pwm and buttons.left.value() == 0:
             cur = pwm.duty_u16()
             manual_brightness = (
@@ -322,12 +337,15 @@ async def pwm_task():
             manual_override = True
             await asyncio.sleep(0.3)
 
-        # 🌐 reconnect + NTP
-        if buttons.thrust.value() == 0:
+        # reconnect + NTP
+        if buttons.right.value() == 0:
             await reconnect_wifi_and_time()
 
-        # 🔄 reboot
-        if buttons.right.value() == 0:
+        if buttons.fire.value() == 0:
+            do_clean_screen()    
+
+        # reboot
+        if buttons.thrust.value() == 0:
             tft_text(font, "Rebooting...", 80, 100, COL["white"])
             await asyncio.sleep(2)
             reset()
@@ -511,18 +529,7 @@ async def daily_reset_task():
 async def clean_screen(): 
     while True:
         await asyncio.sleep(1800)
-        try:
-            draw_background()
-            _text_cache.pop((10,230), None)
-            _text_cache.pop((10,10), None)
-            _text_cache.pop((10,80), None)
-            _text_cache.pop((10,120), None)
-            _text_cache.pop((10,160), None)
-            _text_cache.pop((10,53), None)
-            _text_cache.pop((160,90), None)
-            _text_cache.pop((80,130), None)
-            show_ip()
-        except: pass
+        do_clean_screen()
 
 # ---------------------------
 # NTP Periodic Sync Task
