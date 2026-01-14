@@ -1,5 +1,5 @@
 # Pico Weather Station 🌦️
-**Version:** 1.0.1 
+**Version:** 1.0.2 
 **Status:** Stable
 
 A compact weather station based on the **Raspberry Pi Pico W**, **BME280 sensor**
@@ -64,9 +64,9 @@ Assembly instructions can be found in the corresponding README file.
 ## Buttons
 Hold for 1 second to operate.
 - Top Left - Brightness
-- Bottom Right - WiFi Reset
-- Top Right - Restart
-- Bottom Left - No Function
+- Bottom Right - Restart
+- Top Right - WiFi Reset
+- Bottom Left - Clean Screen
   
 ---
 
